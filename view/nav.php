@@ -13,8 +13,8 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#">Menu 1</a></li>
-            <li><a href="#">Menu 2</a></li>
+            <li><a href="<?php echo APP_DOC_ROOT . '/home'; ?>">Home</a></li>
+            <li><a href="<?php echo APP_DOC_ROOT . '/blog'; ?>">Blog</a></li>
             <li><a href="#">Menu 3</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu 4 <b class="caret"></b></a>
