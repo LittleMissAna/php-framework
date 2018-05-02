@@ -30,3 +30,11 @@ body > .container {
 #footer > .container {
   padding: 15px 15px 0 15px;
 }
+
+div.postContent {
+  margin-bottom: 10px;
+}
+
+div.postByLine {
+  margin-bottom: 40px;
+}

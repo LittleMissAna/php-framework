@@ -15,11 +15,13 @@ switch ( $route->getAction() ) {
       break;
 
     case 'list':
+        $posts = listPosts();
         include( APP_VIEW .'/blog/listSubNav.php' );
         include( APP_VIEW .'/blog/listView.php' );
         break;
 
     default:
+        $posts = listPosts();
         include( APP_VIEW .'/blog/listSubNav.php' );
         include( APP_VIEW .'/blog/listView.php' );
         break;
@@ -28,3 +30,23 @@ switch ( $route->getAction() ) {
 
 # Include html footer
 include( APP_VIEW . '/footer.php' );
+
+
+// Local Functions
+
+function listPosts() {
+
+  $sql = "SELECT
+            *
+          FROM
+            post
+          ORDER BY
+            posted";
+
+  $dbObj = new db();
+  $dbObj->dbPrepare($sql);
+  $dbObj->dbExecute();
+  $posts = $dbObj->dbFetch("all");
+
+  return $posts;
+}
