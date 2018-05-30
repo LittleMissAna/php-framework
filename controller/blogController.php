@@ -10,6 +10,36 @@ include( APP_VIEW . '/nav.php' );
 switch ( $route->getAction() ) {
 
     case 'create':
+
+      // Did the user submit a new post?
+      if($_POST) {
+
+        // Yes - check the post form fields
+        $validator = checkCreatePost($_POST);
+
+        // Was the form valid?
+        if (false == $validator['valid']) {
+          // Not Valid - Re-Display form
+          include( APP_VIEW .'/blog/listSubNav.php' );
+          include( APP_VIEW .'/blog/createView.php' );
+        }
+        else {
+
+          // Was Valid - save form data to database
+          insertPost($_POST);
+
+          // redirect user to post listing
+          header('Location: ' . APP_DOC_ROOT . '/blog/list');
+        }
+      }
+      // No new post - URL manipulation - redraw form
+      else {
+        include( APP_VIEW .'/blog/listSubNav.php' );
+        include( APP_VIEW .'/blog/createView.php' );
+      }
+      break;
+
+    case 'new':
       include( APP_VIEW .'/blog/listSubNav.php' );
       include( APP_VIEW .'/blog/createView.php' );
       break;
@@ -41,6 +71,38 @@ include( APP_VIEW . '/footer.php' );
 
 
 // Local Functions
+
+function checkCreatePost($post) {
+    $valid = true;
+    $errorMessages = '';
+
+    if('' == $post['author']) {
+      $valid = false;
+      $errorMessages = 'Author is required.<br />';
+    }
+
+    if('' == $post['posted']) {
+      $valid = false;
+      $errorMessages .= 'Posted date is required.<br />';
+    }
+
+    if('' == $post['title']) {
+      $valid = false;
+      $errorMessages .= 'Post Title is required.<br />';
+    }
+
+    if('' == $post['content']) {
+      $valid = false;
+      $errorMessages .= 'Post Content is required.<br />';
+    }
+
+    return [
+      'valid' => $valid,
+      'messages' => $errorMessages
+    ];
+}
+
+
 function getPost($postId) {
 
   $sql = "SELECT
@@ -55,6 +117,21 @@ function getPost($postId) {
   $post = $dbObj->dbFetch("assoc");
 
   return $post;
+}
+
+function insertPost($post) {
+
+  $sql = "INSERT INTO post (author, posted, title, content)
+          VALUES (?, ?, ?, ?)";
+
+  $dbObj = new db();
+  $dbObj->dbPrepare($sql);
+  $dbObj->dbExecute([
+    $post['author'],
+    $post['posted'],
+    $post['title'],
+    $post['content']
+  ]);
 }
 
 function listPosts() {
