@@ -13,6 +13,7 @@ switch ( $route->getAction() ) {
         $categories = listCategories();
         $productId = $route->getParams()[2];
         $product = getProduct($productId);
+        $productImage = APP_IMG . '/products/' . $product['id'] . '.png';
         include( APP_VIEW .'/product/listSubNav.php' );
         include( APP_VIEW .'/product/productView.php' );
         break;

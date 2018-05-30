@@ -31,10 +31,23 @@ body > .container {
   padding: 15px 15px 0 15px;
 }
 
+span.pageTitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
 div.postContent {
   margin-bottom: 10px;
 }
 
 div.postByLine {
   margin-bottom: 40px;
+}
+
+div.product {
+  margin-bottom: 20px;
+}
+
+div.productImage img {
+  max-height: 150px;
 }
