@@ -9,8 +9,8 @@
         array (
             // Demo User
             array (
-                'username'  => 'jdoe',
-                'password'  => 'kitten',
+                'username'  => 'david',
+                'password'  => 'bob',
                 'email'     => 'johndoe@gmail.com',
                 'firstName' => 'John',
                 'lastName'  => 'Doe',
