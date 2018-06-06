@@ -34,6 +34,7 @@
 <?php if ( 0 !== APP_AUTH_TYPE && isset($_SESSION["username"]) ) { ?>
 
           <ul class="nav navbar-nav navbar-right">
+            <li><a href="<?php echo APP_DOC_ROOT . '/product/clear'; ?>">Empty</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php print $_SESSION['username']; ?> <b class="caret"></b></a>
               <ul class="dropdown-menu">

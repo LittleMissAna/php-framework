@@ -9,6 +9,21 @@ include( APP_VIEW . '/nav.php' );
 
 switch ( $route->getAction() ) {
 
+  case 'add':
+      $categories = listCategories();
+      $productId = $route->getParams()[2];
+      $product = getProduct($productId);
+      addCart($_POST, $productId);
+      $productImage = APP_IMG . '/products/' . $product['id'] . '.png';
+      include( APP_VIEW .'/product/listSubNav.php' );
+      include( APP_VIEW .'/product/productView.php' );
+      break;
+
+    case 'clear':
+      $_SESSION['cart'] = 0;
+      unset($_SESSION['cart']);
+      header('Location: ' . APP_DOC_ROOT . '/product/list');
+
     case 'view':
         $categories = listCategories();
         $productId = $route->getParams()[2];
@@ -41,6 +56,18 @@ include( APP_VIEW . '/footer.php' );
 
 
 // Local Functions
+function addCart($formArray, $productId) {
+
+    if(isset($formArray['qty'])) {
+        if (isset($_SESSION['cart'][$productId])) {
+          $_SESSION['cart'][$productId] += $formArray['qty'];
+        }
+        else {
+          $_SESSION['cart'][$productId] = $formArray['qty'];
+        }
+    }
+}
+
 function getProduct($productId) {
 
   $sql = "SELECT
