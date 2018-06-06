@@ -11,37 +11,56 @@ switch ( $route->getAction() ) {
 
     case 'create':
 
-      // Did the user submit a new post?
-      if($_POST) {
+      // Does the user have access to create
+      if (
+            in_array('ROLE_BLOG_CREATE', $_SESSION["role"]) ||
+            in_array('ROLE_ADMIN', $_SESSION["role"])
+         ) {
+          // Did the user submit a new post?
+          if($_POST) {
 
-        // Yes - check the post form fields
-        $validator = checkCreatePost($_POST);
+            // Yes - check the post form fields
+            $validator = checkCreatePost($_POST);
 
-        // Was the form valid?
-        if (false == $validator['valid']) {
-          // Not Valid - Re-Display form
-          include( APP_VIEW .'/blog/listSubNav.php' );
-          include( APP_VIEW .'/blog/createView.php' );
-        }
-        else {
+            // Was the form valid?
+            if (false == $validator['valid']) {
+              // Not Valid - Re-Display form
+              include( APP_VIEW .'/blog/listSubNav.php' );
+              include( APP_VIEW .'/blog/createView.php' );
+            }
+            else {
 
-          // Was Valid - save form data to database
-          insertPost($_POST);
+              // Was Valid - save form data to database
+              insertPost($_POST);
 
-          // redirect user to post listing
-          header('Location: ' . APP_DOC_ROOT . '/blog/list');
-        }
+              // redirect user to post listing
+              header('Location: ' . APP_DOC_ROOT . '/blog/list');
+            }
+          }
+          // No new post - URL manipulation - redraw form
+          else {
+            include( APP_VIEW .'/blog/listSubNav.php' );
+            include( APP_VIEW .'/blog/createView.php' );
+          }
       }
-      // No new post - URL manipulation - redraw form
       else {
-        include( APP_VIEW .'/blog/listSubNav.php' );
-        include( APP_VIEW .'/blog/createView.php' );
+          header('Location: ' . APP_DOC_ROOT . '/blog/list');
       }
       break;
 
+
     case 'new':
-      include( APP_VIEW .'/blog/listSubNav.php' );
-      include( APP_VIEW .'/blog/createView.php' );
+      // Does the user have access to create
+      if (
+            in_array('ROLE_BLOG_CREATE', $_SESSION["role"]) ||
+            in_array('ROLE_ADMIN', $_SESSION["role"])
+         ) {
+          include( APP_VIEW .'/blog/listSubNav.php' );
+          include( APP_VIEW .'/blog/createView.php' );
+      }
+      else {
+          header('Location: ' . APP_DOC_ROOT . '/blog/list');
+      }
       break;
 
     case 'view':
